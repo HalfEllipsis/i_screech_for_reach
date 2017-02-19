@@ -34,27 +34,21 @@ function createGame() {
 	 * Create the game
 	 */
 	function create () {
-		//createFakeHand();
-		//createMostDynamicGameBoardEver();
-        //show_facedown_card();
         show_facedown_cards();
-
-
 	}
-
 
 	/**
 	 * Update the game
 	 */
 	function update() {
-		show_facedown_cards();
+		
 	}
 
     function got_cards(card_str) {
         console.log("got cards " + card_str);
         cards = Card.CardsFromJSON(card_str);
         player_cards = cards;
-        update();
+        show_facedown_cards();
     }
 
 
@@ -67,19 +61,6 @@ function createGame() {
 
         createHorizontalCards(50, hor_start_x, hor_end_x);
         createHorizontalCards(board_height - 50 - 130, hor_start_x, hor_end_x);
-        createVerticalCards(50, ver_start_x, ver_end_x);
-        createVerticalCards(board_length - 50 - 60, ver_start_x, ver_end_x);
-    }
-
-    function show_facedown_cards() {
-        total_hor_space_of_cards = 300;
-        hor_start_x = board_length/2 - (total_hor_space_of_cards/2);
-        hor_end_x = board_length/2 + (total_hor_space_of_cards/2 - 60);
-        ver_start_x = board_height/2 - (total_hor_space_of_cards/2);
-        ver_end_x = board_height/2 + (total_hor_space_of_cards/2 - 60);
-
-        createHorizontalCards([], 50, hor_start_x, hor_end_x);
-        createHorizontalCards(player_cards, board_height - 50 - 130, hor_start_x, hor_end_x);
         createVerticalCards(50, ver_start_x, ver_end_x);
         createVerticalCards(board_length - 50 - 60, ver_start_x, ver_end_x);
     }
@@ -103,13 +84,11 @@ function createGame() {
             if (use_fd) {
 			    sprite = create_facedown_card(game, x, y);
             } else {
-                sprint = create_card_sprite(game, x, y, cards[i]);
+                sprite = create_card_sprite(game, x, y, cards[i]);
+                sprite.inputEnabled = true;
+                sprite.events.onInputOver.add(mouseOn, this);
+                sprite.events.onInputOut.add(mouseOff, this);
             }
-			// Also enable sprite for drag
-			sprite.inputEnabled = true;
-			sprite.input.enableDrag();
-			sprite.events.onDragStart.add(startDrag, this);
-			sprite.events.onDragStop.add(stopDrag, this);
 		}
 	}
 
@@ -126,57 +105,18 @@ function createGame() {
 			sprite.events.onDragStop.add(stopDrag, this);
 		}
 	}
-
-	/**
-	 * Creates the most dynamic and beautiful game board that you've ever seen
-	 * in the history of Anime
-	 */
-	function createMostDynamicGameBoardEver() {
-
-		var array = (function() {
-			var array = [];
-			for (var i = 0; i < 13; i++) {
-				array.push('tile');
-			}
-			return array;
-		})();
-		fillHorizontalText(array, 50, 50, 400);
-		fillHorizontalText(array, 375, 50, 400);
-
-		fillVerticalText(array, 10, 70, 380);
-		fillVerticalText(array, 410, 70, 380);
+	
+	function mouseOn(sprite) {
+		current_scale_x = sprite.scale.x;
+		current_scale_y = sprite.scale.y;
+		sprite.scale.set(current_scale_x * 1.2, current_scale_y * 1.2);
+		sprite.tint = .8 * 0xFFFFFF;
 	}
-
-
-	/**
-	 * This function is also bad. Make it betterer. :)
-	 */
-	function fillVerticalText(text, x, start_y, end_y) {
-		text = Array.from(text);
-		for (var i = 0; i < text.length; i++) {
-			var y = ((end_y - start_y) / text.length * i) + start_y;
-
-			var sprite = game.add.sprite(x, y, text[i]);
-			// Also enable sprite for drag
-			sprite.inputEnabled = true;
-			sprite.input.enableDrag();
-			sprite.events.onDragStart.add(startDrag, this);
-			sprite.events.onDragStop.add(stopDrag, this);
-		}
-	}
-
-	/**
-	 * Called when the player begins to drag a tile
-	 */
-	function startDrag() {
-		console.log("Drag Started");
-	}
-
-	/**
-	 * Called when the player finishes dragging a tile
-	 */
-	function stopDrag(sprite) {
-		console.log("Drag Stopped");
-		socket.send('tileDragged');
+	
+	function mouseOff(sprite) {
+		current_scale_x = sprite.scale.x;
+		current_scale_y = sprite.scale.y;
+		sprite.scale.set(current_scale_x / 1.2, current_scale_y / 1.2);
+		sprite.tint = 0xFFFFFF;
 	}
 }
