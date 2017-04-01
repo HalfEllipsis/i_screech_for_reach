@@ -1,0 +1,22 @@
+{
+	"dimensions":{
+		"width":250,
+		"height":350,
+		"curve":20
+	},
+	"card_stock":{
+		"file":"scribble/card_stock.png",
+		"x_crop":0,
+		"y_crop":0
+	},
+	"logos":{
+		"width":25,
+		"height":25,
+		"font":"scribble/CaviarDreams.ttf",
+		"font_size":20,
+		"heart":"scribble/heart.png",
+		"spade":"scribble/spade.png",
+		"diamond":"scribble/diamond.png",
+		"club":"scribble/club.png"
+	}	
+}
