@@ -53,6 +53,8 @@ def gen_rounded_rectangle(size,radius,color_mode="RGBA",color=(255,255,255)):
     draw.rectangle([radius,size[1]-radius,size[0]-radius-1,size[1]],fill=color)
     return result
 
-
+def too_close(locationA,locationB,tolerance):
+    distance_sqrd = sum(tupmap(lambda a,b:(a-b)**2,locationA,locationB))
+    return distance_sqrd <= (tolerance**2)
 
 
