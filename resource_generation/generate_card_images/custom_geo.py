@@ -25,6 +25,14 @@ def makeint(location):
 def relative_location(location,reference_size):
     return tupmap(lambda a,b:a*b,location,reference_size)
 
+def relative_size(size,reference_size):
+    return relative_location(size,reference_size)
+
+def fit_size(size,reference_size,reference_scale):
+    scales = tupmap(lambda a,b:b*reference_scale/a,size,reference_size)
+    scale_to_fit = min(scales)
+    return tupmap(lambda a:a*scale_to_fit,size)
+
 def center_anchor(location,reference_size):
     return tupmap(lambda a,b:a-b/2,location,reference_size)
 

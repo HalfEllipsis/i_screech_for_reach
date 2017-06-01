@@ -3,6 +3,9 @@ import custom_geo
 import tupleize
 import json
 
+opaque = (0,0,0,255)
+translucence = (0,0,0,0)
+
 with open("card_definitions.json") as cdef_file:
     cdef = json.load(cdef_file)
 cdef = tupleize.tupleize(cdef)
@@ -13,7 +16,6 @@ total_size = (cdef['dimensions']['size'][0]*number_of_cards,cdef['dimensions']['
 card_stock = Image.open(cdef['card_stock']['file'])
 card_stock = card_stock.crop(cdef['card_stock']['crop_offset']+cdef['dimensions']['size'])
 
-opaque = (0,0,0,255)
 card_cutout = custom_geo.gen_rounded_rectangle(cdef['dimensions']['size'],cdef['dimensions']['corner_round_radius'],'RGBA',opaque)
 
 bg_image = Image.new('RGBA',cdef['dimensions']['size'],cdef['bg_color'])
@@ -45,7 +47,28 @@ for suit in cdef['suits'].keys():
                     location_scaled = custom_geo.center_anchor(custom_geo.relative_location(location,card_image.size),pip_image.size)
                     location_scaled_int = custom_geo.makeint(location_scaled)
                     card_image.paste(pip_image,box=location_scaled_int,mask=pip_image)
-                    
+            
+            logo_size = custom_geo.makeint(custom_geo.relative_size(cdef['logo']['size'],cdef['dimensions']['size']))
+            logo_image = Image.new('RGBA',logo_size,translucence)
+            logo_draw = ImageDraw.Draw(logo_image)
+            logo_positon = custom_geo.relative_location(cdef['logo']['position'],cdef['dimensions']['size'])
+            logo_positon_center_anchored = custom_geo.makeint(custom_geo.center_anchor(logo_positon,logo_size))
+            
+            font_height = logo_size[1]*cdef['logo']['text']['size']
+            font_position = custom_geo.makeint(custom_geo.relative_location(cdef['logo']['text']['position'],logo_size))
+            font_color = cdef['suits'][suit]['text_color']
+            font = ImageFont.truetype(cdef['logo']['text']['font'],round(font_height))
+            
+            logo_symbol = Image.open(cdef['suits'][suit]['logo_symbol'])
+            logo_symbol_size = custom_geo.makeint(custom_geo.fit_size(logo_symbol.size,logo_size,cdef['logo']['symbol']['size']))
+            logo_symbol_resized = logo_symbol.resize(logo_symbol_size,resample=Image.LANCZOS)
+            logo_symbol_position =  custom_geo.relative_location(cdef['logo']['symbol']['position'],logo_symbol_size)
+            logo_symbol_position_center_anchored = custom_geo.makeint(custom_geo.center_anchor(logo_symbol_position,logo_symbol_resized.size))
+            
+            logo_image.paste(logo_symbol_resized,box=logo_symbol_position_center_anchored,mask=logo_symbol_resized)
+            logo_draw.text(font_position,card,font=font,fill=font_color)
+            card_image.paste(logo_image,box=logo_positon_center_anchored,mask=logo_image)
+            
             finished_card_image = Image.composite(card_image,bg_image,card_cutout)
             location_in_sheet = (card_index*card_stock.size[0],0)
             card_sheet_image.paste(finished_card_image,box=location_in_sheet,mask=finished_card_image)

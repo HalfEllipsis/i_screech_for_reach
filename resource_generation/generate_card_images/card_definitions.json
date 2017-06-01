@@ -8,14 +8,23 @@
 		"file":"scribble/card_stock.png",
 		"crop_offset":[0,0]
 	},
-	"logos":{
-		"size":[25,25],
-		"font":"scribble/CaviarDreams.ttf",
-		"font_size":20
+	"logo":{
+		"position":[0.1,0.1],
+		"size":[0.2,0.2],
+		"text":{
+			"font":"scribble/CaviarDreams.ttf",
+			"size":0.4,
+			"position":[0.4,0]
+		},
+		"symbol":{
+			"size":1,
+			"position":[0.5,0.9]
+		}
 	},
 	"suits":{
 		"hearts":{
-			"logo":"scribble/heart.png",
+			"logo_symbol":"scribble/heart.png",
+			"text_color":[255,0,0,255],
 			"pip":"scribble/heart.png",
 			"faces":{
 				"J":{
