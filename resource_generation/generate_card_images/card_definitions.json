@@ -2,7 +2,7 @@
 	"bg_color":[0,0,0,0],
 	"dimensions":{
 		"size":[250,350],
-		"radius":10
+		"corner_round_radius":10
 	},
 	"card_stock":{
 		"file":"scribble/card_stock.png",
@@ -16,34 +16,67 @@
 	"suits":{
 		"hearts":{
 			"logo":"scribble/heart.png",
-			"pip":"scribble/heart.png"
+			"pip":"scribble/heart.png",
+			"faces":{
+				"J":{
+					"image":"scribble/heart_jack.png",
+					"position":[0,0],
+					"scale":1
+				}
+			},
+			"card_overrides":{}
+		},
+		"clubs":{
+			"logo":"scribble/club.png",
+			"pip":"scribble/club.png",
+			"card_overrides":{}
+		},
+		"diamonds":{
+			"logo":"scribble/diamond.png",
+			"pip":"scribble/diamond.png",
+			"card_overrides":{}
+		},
+		"spades":{
+			"logo":"scribble/spade.png",
+			"pip":"scribble/spade.png",
+			"card_overrides":{}
 		}
 	},
 	"cards":{
 		"A":{
+			"is_face":false,
 			"mirrors":[],
 			"pips":[[0.5,0.5,0]]
 		},
 		"2":{
+			"is_face":false,
 			"mirrors":[[1,0]],
 			"pips":[[0.5,0.3,0]]
 		},
 		"3":{
+			"is_face":false,
 			"mirrors":[[1,0]],
 			"pips":[[0.5,0.25,0],[0.5,0.5,0]]
 		},
 		"4":{
+			"is_face":false,
 			"mirrors":[[1,0],[0,1]],
 			"pips":[[0.25,0.25,0]]
 		},
 		"5":{
+			"is_face":false,
 			"mirrors":[[1,0],[0,1]],
 			"pips":[[0.25,0.25,0],[0.5,0.5,0]]
 		},
 		"6":{
+			"is_face":false,
 			"mirrors":[[1,0],[0,1]],
 			"pips":[[0.25,0.25,0],[0.25,0.5,0]]
+		},
+		"J":{
+			"is_face":true,
+			"mirrors":[[1,0.3]],
+			"pips":[]
 		}
-		
 	}
 }
