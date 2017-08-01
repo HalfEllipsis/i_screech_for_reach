@@ -1,5 +1,9 @@
 var CardGrouping = function(game) {
 	Phaser.Group.call(this, game);
+
+	// Since Phaser.Group's constructor overrides this.classType, we need to
+	// set it again after that constructor call
+    this.classType = CardSprite;
 }
 
 CardGrouping.prototype = Object.create(Phaser.Group.prototype);

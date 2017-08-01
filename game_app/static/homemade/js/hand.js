@@ -2,7 +2,6 @@ var Hand = function(game,gap,offset) {
 	CardGrouping.call(this, game);
     this.gap = gap;
     this.offset = offset;
-    this.classType = CardSprite;
 }
 Hand.prototype = Object.create(CardGrouping.prototype);
 Hand.prototype.constructor = Hand; 

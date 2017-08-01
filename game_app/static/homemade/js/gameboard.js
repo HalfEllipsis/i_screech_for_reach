@@ -1,17 +1,15 @@
 /**
- * Creates the irresistible beautiful game board
+ * Creates the graphics for the game to be synced up with the server which holds
+ * the game logic
  */
 
-/**
- * Creates the graphics for the game to be synced up with the server which 
- * holds the game logic
- */
+CARD_SPRITE_SHEET = 'cards';
 
 var board_length = 800;
 var board_height = 600;
 
 var card_length = 146;
-var card_height = 220;
+var card_height = 195.5;
 
 var score_textbox = null;
 
@@ -72,20 +70,20 @@ function cardClicked(sprite) {
 	}
 }
 
+function create_turn_indicator(game, x, y, image) {
+	sprite = game.add.sprite(x, y, image);
+}
+
 function createGame() {
 
 	var game = new Phaser.Game(board_length, board_height, Phaser.AUTO, 'game_board', { preload: preload, create: create, update: update });
-//	game.scale.setGameSize(board_length, board_height);
 	/**
 	 * Load images and such to be used in the game
 	 */
 	function preload() {
 
-		game.load.spritesheet(Card.CLUBS, '../static/third_party/assets/card_images/clubs/Atlasnye_playing_cards_deck_2.svg.png', card_length, card_height);
-		game.load.spritesheet(Card.DIAMONDS, '../static/third_party/assets/card_images/diamonds/Atlasnye_playing_cards_deck_2.svg.png', card_length, card_height);
-		game.load.spritesheet(Card.HEARTS, '../static/third_party/assets/card_images/hearts/Atlasnye_playing_cards_deck_2.svg.png', card_length, card_height);
-		game.load.spritesheet(Card.SPADES, '../static/third_party/assets/card_images/spades/Atlasnye_playing_cards_deck_2.svg.png', card_length, card_height);
-		game.load.spritesheet(Card.BACK, '../static/third_party/assets/card_images/back/akiyama.png', card_length, card_height);
+		game.load.spritesheet(Card.BACK, '../static/third_party/assets/card_images/card_back.png', card_length, card_height);
+		game.load.spritesheet(CARD_SPRITE_SHEET, '../static/third_party/assets/card_images/card_sheet.png', card_length, card_height, 52);
 		
 		game.load.image("turn_no", "../static/homemade/assets/turn_no.png");
 		game.load.image("turn_yes", "../static/homemade/assets/turn_yes.png");
